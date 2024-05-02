@@ -1,29 +1,51 @@
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StatusBar } from 'expo-status-bar';
-import { ImageBackground, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import StartGamesScreen from './screens/StartGamesScreen';
-import { LinearGradient } from 'expo-linear-gradient'
-import { Dark_color, Light_color, } from './components/Colors';
+import GameScreen from './screens/GameScreen';
+import { Light_color } from './components/Colors';
 
-export default function App() {
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+
+function HomeScreen() {
   return (
-    <LinearGradient colors={['#0de2c2', '#11e20d']} style={styles.root}>
-      <ImageBackground source={require('./assets/guess.png')} resizeMode='cover' style={styles.root} imageStyle={styles.imageStyle}>
-        <SafeAreaView style={styles.root}>
-          <StartGamesScreen />
+    <View style={styles.container}>
+      <Text>Home Screen</Text>
+    </View>
+  );
+}
 
-        </SafeAreaView>
+function App() {
+  return (
 
-      </ImageBackground>
-    </LinearGradient>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="GameStartScreen" component={DrawerScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="GameScreen" component={GameScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+function DrawerScreen() {
+  return (
+    <Drawer.Navigator initialRouteName="Games">
+      {/* <Drawer.Screen name="Home" component={HomeScreen} /> */}
+      <Drawer.Screen name="Games" component={StartGamesScreen} />
+    </Drawer.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
-  root: {
+  container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  imageStyle: {
-    opacity: 0.15
-
-  }
 });
+
+export default App;

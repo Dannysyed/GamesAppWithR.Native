@@ -4,17 +4,21 @@ import { Primary_color } from '../components/Colors'
 import PrimaryButton from '../components/PrimarButton'
 import { Ionicons } from '@expo/vector-icons'
 
-const StartGamesScreen = () => {
+const StartGamesScreen = ({ navigation }) => {
     const [enteredNumber, setEnteredNumber] = useState('')
     let numberInputHandler = (text) => {
         setEnteredNumber(text)
     }
+    let Starthandler = () => {
+        navigation.navigate('GameScreen')
+    }
+
     return (
         <View style={styles.container}>
             <TextInput style={styles.input} placeholder="Enter your Number" placeholderTextColor={"white"} keyboardType='number-pad' onChangeText={numberInputHandler} />
             <View style={styles.buttonContainer}>
                 <PrimaryButton style={styles.button}>Reset</PrimaryButton>
-                <PrimaryButton style={styles.button}>Start</PrimaryButton>
+                <PrimaryButton style={styles.button} onPress={Starthandler}>Start</PrimaryButton>
                 <Ionicons name='add' size={24} color={'white'} />
             </View>
 
