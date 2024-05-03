@@ -6,9 +6,13 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import StartGamesScreen from './screens/StartGamesScreen';
 import GameScreen from './screens/GameScreen';
-import { Light_color } from './components/Colors';
+import { Light_color, Secondary_color } from './components/Colors';
+import { Ionicons } from '@expo/vector-icons'
 
-const Drawer = createDrawerNavigator();
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
+
 const Stack = createStackNavigator();
 
 function HomeScreen() {
@@ -33,10 +37,23 @@ function App() {
 
 function DrawerScreen() {
   return (
-    <Drawer.Navigator initialRouteName="Games">
-      {/* <Drawer.Screen name="Home" component={HomeScreen} /> */}
-      <Drawer.Screen name="Games" component={StartGamesScreen} />
-    </Drawer.Navigator>
+    <Tab.Navigator initialRouteName="Games" tabBarOptions={{
+      activeTintColor: Secondary_color,
+      inactiveTintColor: 'gray',
+    }}>
+      <Tab.Screen name="Games" component={StartGamesScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen name="Misc" component={HomeScreen} options={{
+        tabBarIcon: ({ color, size, focused }) => (
+          <Ionicons name="settings" color={focused ? Secondary_color : 'gray'} size={size} />
+        ),
+      }} />
+    </Tab.Navigator>
   );
 }
 
