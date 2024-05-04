@@ -1,55 +1,67 @@
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
-import { Primary_color } from '../components/Colors'
-import PrimaryButton from '../components/PrimarButton'
-import { Ionicons } from '@expo/vector-icons'
-import { useRoute } from '@react-navigation/native'
-const StartGamesScreen = ({ navigation }) => {
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import GameItem from '../components/GameItem';
 
-    const [enteredNumber, setEnteredNumber] = useState('')
+const StartGamesScreen = ({ navigation }) => {
+    let Games = [
+        { id: '1', GameName: 'Memory Match' },
+        { id: '2', GameName: 'Word Search' },
+        { id: '3', GameName: 'Trivia Quiz' },
+        { id: '4', GameName: 'Crossword Puzzle' },
+        { id: '5', GameName: 'Sudoku' },
+        { id: '6', GameName: 'Hangman' },
+    ];
+
+    const [enteredNumber, setEnteredNumber] = useState('');
+
     let numberInputHandler = (text) => {
-        setEnteredNumber(text)
-    }
-    let Starthandler = () => {
-        navigation.navigate('GameScreen', { data: enteredNumber })
-    }
+        setEnteredNumber(text);
+    };
+
+    let Starthandler = (id) => {
+        navigation.navigate('GameScreen', { data: id });
+    };
 
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} placeholder="Enter your Number" placeholderTextColor={"white"} keyboardType='number-pad' onChangeText={numberInputHandler} />
-            <View style={styles.buttonContainer}>
-                <PrimaryButton style={styles.button}>Reset</PrimaryButton>
-                <PrimaryButton style={styles.button} onPress={Starthandler}>Start</PrimaryButton>
-            </View>
+            <Text style={styles.text}>Please Select a Game</Text>
 
+            <FlatList
+                data={Games}
+                renderItem={({ item }) => (
+                    <TouchableOpacity style={styles.game} onPress={Starthandler.bind(this, item.id)}>
+                        <GameItem title={item.GameName} />
+                    </TouchableOpacity>
+                )}
+                numColumns={2}
+                horizontal={false}
+                keyExtractor={({ id }) => id}
+            />
         </View>
-    )
-}
+    );
+};
 
-export default StartGamesScreen
+export default StartGamesScreen;
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 30,
-        padding: 16,
-        marginHorizontal: 20,
-        backgroundColor: Primary_color,
-        borderRadius: 10
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: 'gray',
-        padding: 8,
-        borderRadius: 5,
-        marginBottom: 10,
-        color: 'white'
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    button: {
         flex: 1,
-        marginHorizontal: 5
-    }
-})
+        backgroundColor: '#212121',
+        padding: 20,
+    },
+    game: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        marginVertical: 10,
+        marginHorizontal: 5,
+    },
+    text: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 24,
+        marginVertical: 10,
+        textTransform: 'uppercase',
+    },
+});

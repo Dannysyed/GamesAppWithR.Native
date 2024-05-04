@@ -1,12 +1,12 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import StartGamesScreen from './screens/StartGamesScreen';
 import GameScreen from './screens/GameScreen';
-import { Light_color, Secondary_color } from './components/Colors';
+import { Light_color, Primary_color, Secondary_color, calming } from './components/Colors';
 import { Ionicons } from '@expo/vector-icons'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -14,6 +14,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 
 const Stack = createStackNavigator();
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: calming.primary, // Set your desired background color here
+  },
+};
 
 function HomeScreen() {
   return (
@@ -26,8 +33,14 @@ function HomeScreen() {
 function App() {
   return (
 
-    <NavigationContainer>
-      <Stack.Navigator>
+    <NavigationContainer theme={MyTheme}>
+      <Stack.Navigator screenOptions={{
+        headerTintColor: 'white',
+        headerStyle: {
+          backgroundColor: calming.secondary,
+          borderBottomColor: 'white',
+        },
+      }}>
         <Stack.Screen name="GameStartScreen" component={DrawerScreen} options={{ headerShown: false }} />
         <Stack.Screen name="GameScreen" component={GameScreen} />
       </Stack.Navigator>
@@ -38,9 +51,18 @@ function App() {
 function DrawerScreen() {
   return (
     <Tab.Navigator initialRouteName="Games" tabBarOptions={{
-      activeTintColor: Secondary_color,
+      activeTintColor: calming.secondary,
       inactiveTintColor: 'gray',
-    }}>
+    }} screenOptions={{
+      headerRight: () => {
+        return <Ionicons name="help" color={calming.secondary} size={25} />
+      }, headerStyle: {
+        backgroundColor: calming.secondary,
+        borderBottomColor: 'white',
+      },
+
+      headerTintColor: 'white',
+    }} >
       <Tab.Screen name="Games" component={StartGamesScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -50,8 +72,8 @@ function DrawerScreen() {
       />
       <Tab.Screen name="Misc" component={HomeScreen} options={{
         tabBarIcon: ({ color, size, focused }) => (
-          <Ionicons name="settings" color={focused ? Secondary_color : 'gray'} size={size} />
-        ),
+          <Ionicons name="settings" color={focused ? calming.secondary : 'gray'} size={size} />
+        )
       }} />
     </Tab.Navigator>
   );

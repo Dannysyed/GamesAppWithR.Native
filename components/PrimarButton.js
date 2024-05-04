@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { Secondary_color } from './Colors'
+import { Secondary_color, calming } from './Colors'
 
 const PrimaryButton = ({ children, style, onPress }) => {
     return (
@@ -14,7 +14,7 @@ export default PrimaryButton
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: Secondary_color,
+        backgroundColor: calming.secondary,
         marginVertical: 10,
         padding: 10,
         borderRadius: 10,

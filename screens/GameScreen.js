@@ -4,14 +4,23 @@ import { useRoute } from '@react-navigation/native'
 
 const GameScreen = () => {
     let route = useRoute()
+    let guessNumber = route.params.data
 
     return (
-        <View>
-            <Text>{route.params.data}</Text>
+        <View style={styles.container}>
+            <Text style={styles.text}>The guessed number is:{guessNumber}</Text>
         </View>
     )
 }
 
 export default GameScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+
+    }, text: {
+        color: 'white'
+    }
+
+})
